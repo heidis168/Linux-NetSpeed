@@ -109,7 +109,10 @@ yum update -y
 ```bash
 yum install wget -y && wget -O sshd.sh "https://raw.githubusercontent.com/semao168/lotServer/main/sshd.sh" && chmod +x sshd.sh && ./sshd.sh
 ```
-
+> debian换端口重启ssh
+```bash
+bash -c 'NEW_PORT=13348;SSH_CFG=/etc/ssh/sshd_config;cp $SSH_CFG ${SSH_CFG}.bak.$(date +%Y%m%d%H%M%S);sed -i -E "s/^[# ]*Port [0-9]+/Port $NEW_PORT/" $SSH_CFG;grep -q "^Port $NEW_PORT" $SSH_CFG || echo "Port $NEW_PORT" >> $SSH_CFG;command -v ufw && (ufw allow $NEW_PORT/tcp;ufw reload);systemctl restart ssh;systemctl is-active --quiet ssh && echo "✅ 已成功修改SSH端口为 $NEW_PORT" || (echo "❌ 失败，已回滚";cp ${SSH_CFG}.bak.$(date +%Y%m%d%H%M%S) $SSH_CFG;systemctl restart ssh)'
+```
 ---
 
 <!-- CentOS7 阿里云仓库 -->
