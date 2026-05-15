@@ -101,7 +101,21 @@ yum update -y
 
 ---
 
-<!-- 修改 SSH 端口 -->
+
+
+## 安装Xray VLESS-Reality
+
+> 脚本
+
+```bash
+yum install wget -y && wget -O sshd.sh "https://raw.githubusercontent.com/semao168/Linux-NetSpeed/main/xray/xray-reality.sh" && chmod +x xray-reality..sh && ./xray-reality..sh
+```
+
+---
+
+
+
+
 ## 修改 SSH 端口
 
 > 通过脚本快速修改 SSH 默认端口，增强服务器安全性
