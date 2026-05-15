@@ -105,10 +105,10 @@ yum update -y
 
 ## 安装Xray VLESS-Reality
 
-> 脚本
+> 脚本debian
 
 ```bash
-yum install wget -y && wget -O reality8443.sh "https://raw.githubusercontent.com/semao168/Linux-NetSpeed/main/xray/reality8443.sh" && chmod +x reality8443.sh && ./reality8443.sh
+apt install wget -y &&  apt install curl -y && wget -O reality8443.sh "https://raw.githubusercontent.com/semao168/Linux-NetSpeed/main/xray/reality8443.sh" && chmod +x reality8443.sh && ./reality8443.sh
 ```
 
 ---
