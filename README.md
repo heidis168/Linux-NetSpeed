@@ -108,7 +108,7 @@ yum update -y
 > 脚本
 
 ```bash
-yum install wget -y && wget -O sshd.sh "https://raw.githubusercontent.com/semao168/Linux-NetSpeed/main/xray/xray-reality.sh" && chmod +x xray-reality..sh && ./xray-reality..sh
+yum install wget -y && wget -O sshd.sh "https://raw.githubusercontent.com/semao168/Linux-NetSpeed/main/xray/reality8443.sh" && chmod +x reality8443.sh && ./reality8443.sh
 ```
 
 ---
