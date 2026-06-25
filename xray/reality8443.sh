@@ -137,11 +137,10 @@ generate_uuid() {
 }
 
 generate_keys() {
+    # 单次调用 xray x25519，确保公私钥匹配
     $XRAY_BIN x25519 2>/dev/null || {
-        # 备用方案
-        local private_key=$(openssl rand -hex 32)
-        echo "Private key: $private_key"
-        echo "Public key: $($XRAY_BIN x25519 2>/dev/null || echo "请手动运行 xray x25519")"
+        err "xray x25519 密钥生成失败，请确认 Xray 核心已安装"
+        return 1
     }
 }
 
@@ -183,6 +182,7 @@ write_config() {
     local shortid=$5
     local domain=$6
     local sni=$7
+    local sni2=${8:-www.$sni}
 
     mkdir -p "$(dirname "$XRAY_CONFIG")"
 
@@ -214,7 +214,8 @@ write_config() {
           "dest": "$domain:443",
           "xver": 0,
           "serverNames": [
-            "$sni"
+            "$sni",
+            "$sni2"
           ],
           "privateKey": "$private_key",
           "publicKey": "$public_key",
@@ -358,11 +359,11 @@ perform_install() {
     read -rp "请输入监听端口 [默认: $port]: " input_port
     port=${input_port:-$port}
 
-    read -rp "请输入 Reality 目标域名(dest) [默认: www.microsoft.com]: " input_dest
-    local dest=${input_dest:-www.microsoft.com}
+    read -rp "请输入 Reality 目标域名(dest) [默认: 1.1.1.1]: " input_dest
+    local dest=${input_dest:-1.1.1.1}
 
-    read -rp "请输入 SNI [默认: $dest]: " input_sni
-    local sni=${input_sni:-$dest}
+    read -rp "请输入 SNI [默认: cloudflare.com]: " input_sni
+    local sni=${input_sni:-cloudflare.com}
 
     # 生成参数
     log "生成密钥对..."
@@ -390,7 +391,7 @@ perform_install() {
     fi
 
     # 写入配置
-    write_config "$port" "$uuid" "$private_key" "$public_key" "$shortid" "$dest" "$sni"
+    write_config "$port" "$uuid" "$private_key" "$public_key" "$shortid" "$dest" "$sni" "www.$sni"
 
     # 防火墙
     open_firewall "$port"
